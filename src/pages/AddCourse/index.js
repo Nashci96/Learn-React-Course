@@ -1,7 +1,7 @@
 import React from "react";
 import { ButtonGroup , Form , Button } from "react-bootstrap";
-import FormInput from "../../components/FormInput";
-import { StyledContainer,StyledTitle } from "./style";
+import {StyledContainer,FormInput} from "../../components";
+import { StyledTitle } from "./style";
 import useAddCourseState from "./useAddCourseState";
 
 const FORM_LIST = [
@@ -13,8 +13,22 @@ const FORM_LIST = [
     { id:"duration", label:"Duration",type:"text",placeholder:"Enter Course Duration"},
 ]
 
-const AddCourse = () => {
+const AddCourse = ({onNavigate,setCourses}) => {
     const{getter,setter} = useAddCourseState();
+
+    const handleSubmit = () => {
+        setCourses((prevState) => {
+            const newCourses = {...prevState};
+            const payload = {
+                ...getter,
+                courseId: Math.random().toString()
+            }
+            newCourses?.data?.push(payload);
+            return newCourses;
+        })
+
+        onNavigate("/");
+    }
 
     return (
         <StyledContainer>
@@ -28,16 +42,17 @@ const AddCourse = () => {
                             value={getter[item.id]}
                             onChange={setter[item.id]}
                             placeholder={item.placeholder}
+                            key={item.id}
                         />
                     ))
                 }
 
                 <ButtonGroup>
-                    <Button variant="success">
+                    <Button variant="success" onClick={handleSubmit} disabled={getter.isDisable} >
                         Submit
                     </Button>
 
-                    <Button variant="secondary">
+                    <Button variant="secondary" onClick={() => onNavigate("/")}>
                         Cancel
                     </Button>
                 </ButtonGroup>

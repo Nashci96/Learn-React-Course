@@ -23,9 +23,10 @@ const FormInput = ({
                 {...props}
                 placeholder={placeholder}
                 onChange={onChange}
+                isValid={!!value}
             />
         </FormGroup>
     )
 }
 
-export default FormInput    ;
+export default FormInput;

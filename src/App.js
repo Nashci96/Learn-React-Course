@@ -1,23 +1,43 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import { 
+  AddCourse,CourseList 
+} from './pages';
+import courseList from './fixtures/courseList.json';
 
 function App() {
+  const [courses,setCourses] = React.useState(courseList);
+  const [nav,setNav] = React.useState("/")
+  let Component;
+  let props = {};
+
+  switch(nav) {
+    case "/" :
+      Component = CourseList;
+      props = {
+        ...props,
+        courses
+      }
+      break
+    case "/add-course":
+      Component = AddCourse;
+      props = {
+        ...props,
+        setCourses: setCourses
+      }
+      break;
+    default:
+      Component = CourseList;
+      props = {
+        ...props,
+        courses
+      }
+      break;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Component onNavigate= {setNav} {...props} />
     </div>
   );
 }
