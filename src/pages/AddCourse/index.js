@@ -32,7 +32,7 @@ const AddCourse = ({onNavigate,setCourses}) => {
 
     return (
         <StyledContainer>
-            <StyledTitle>AddCourse</StyledTitle>
+            <StyledTitle>Add Course</StyledTitle>
             <Form>
                 {
                     FORM_LIST.map(item => (
