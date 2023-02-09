@@ -1,44 +1,47 @@
 import React, { Component } from 'react';
-import './App.css';
+import { Provider } from 'react-redux';
+import { NavBar } from './components';
+
 import { 
-  AddCourse,CourseList 
+  AddCourse,CourseList,TypeList
 } from './pages';
-import courseList from './fixtures/courseList.json';
+import store from "./store"
+import constants from './constants';
 
 function App() {
-  const [courses,setCourses] = React.useState(courseList);
+  
   const [nav,setNav] = React.useState("/")
   let Component;
   let props = {};
 
+  const menu = [
+    {name: "Course List",onNavigate: () => setNav(constants.ROUTES.COURSE_LIST)},
+    {name: "Course Type",onNavigate: () => setNav(constants.ROUTES.COURSE_TYPE)}
+  ]
+
   switch(nav) {
-    case "/" :
+    case constants.ROUTES.COURSE_LIST:
       Component = CourseList;
-      props = {
-        ...props,
-        courses
-      }
-      break
-    case "/add-course":
-      Component = AddCourse;
-      props = {
-        ...props,
-        setCourses: setCourses
-      }
       break;
+    
+    case constants.ROUTES.ADD_COURSE:
+      Component = AddCourse;
+      break;
+    
+    case constants.ROUTES.COURSE_TYPE:
+      Component = TypeList;
+      break;
+    
     default:
       Component = CourseList;
-      props = {
-        ...props,
-        courses
-      }
       break;
   }
 
   return (
-    <div className="App">
-      <Component onNavigate= {setNav} {...props} />
-    </div>
+    <Provider store={store} >
+      <NavBar menu={menu} />
+      <Component onNavigate={setNav} />
+    </Provider>
   );
 }
 
