@@ -5,7 +5,7 @@ import courseTypeReducer from "./reducers/courseTypeReducer";
 
 const rootReducer = combineReducers({
     courses : courseReducer,
-    courseType : courseTypeReducer
+    courseTypes : courseTypeReducer
 })
 
 export default rootReducer

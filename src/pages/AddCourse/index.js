@@ -14,7 +14,7 @@ import useAddCourseState from "./useAddCourseState";
 const FORM_LIST = [
     { id:"title", label:"Title",type:"text",placeholder:"Enter Course Title"},
     { id:"description", label:"Description",type:"textarea",placeholder:"Enter Course Description"},
-    { id:"typeId", label:"Type id",type:"text",placeholder:"Enter Course Type Id"},
+    { id:"courseTypeId", label:"Type id",type:"text",placeholder:"Enter Course Type Id"},
     { id:"courseFile", label:"Course Material",type:"file",placeholder:"Choose Course Material"},
     { id:"level", label:"Level",type:"text",placeholder:"Enter Course Level"},
     { id:"duration", label:"Duration",type:"text",placeholder:"Enter Course Duration"},
@@ -24,6 +24,7 @@ const AddCourse = ({
     addCourse,onNavigate
 }) => {
     const{getter,setter} = useAddCourseState();
+
     const submitHandler = () => {
         addCourse(getter)
         onNavigate(constants.ROUTES.COURSE_LIST)
@@ -31,7 +32,7 @@ const AddCourse = ({
 
     return (
         <StyledContainer>
-            <StyledTitle>Add Course</StyledTitle>
+            <StyledTitle>Add Learning Course</StyledTitle>
             <Form>
                 {
                     FORM_LIST.map(item => (
@@ -47,7 +48,7 @@ const AddCourse = ({
                 }
 
                 <ButtonGroup>
-                    <Button variant="success" onClick={submitHandler}>
+                    <Button variant="success" onClick={submitHandler} disabled={getter.isDisable}>
                         Submit
                     </Button>
 

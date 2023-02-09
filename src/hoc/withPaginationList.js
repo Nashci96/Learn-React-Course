@@ -20,12 +20,12 @@ export default (ListComponent , opts) => {
                 <Button 
                     variant="success" onClick={() => props.onNavigate(navAdd)}
                 >
-                    Add {label}
+                    Add Learning {label}
                 </Button>
 
                 {
                     currentRecord?.length > 0 
-                    ? ( <ListComponent data={currentRecord}/> )
+                    ? ( <ListComponent data={currentRecord} {...props} /> )
                     : <EmptyState text={`Data ${label} Kosong...`} /> 
                 }
              </StyledContainer>
