@@ -1,6 +1,13 @@
 import React from "react";
-import { ButtonGroup , Form , Button } from "react-bootstrap";
+import { 
+    ButtonGroup , Form , Button 
+} from "react-bootstrap";
+import { connect } from "react-redux";
+
 import {StyledContainer,FormInput} from "../../components";
+import { addCourse } from "../../store/actions/courseAction";
+import constants from "../../constants";
+
 import { StyledTitle } from "./style";
 import useAddCourseState from "./useAddCourseState";
 
@@ -13,21 +20,13 @@ const FORM_LIST = [
     { id:"duration", label:"Duration",type:"text",placeholder:"Enter Course Duration"},
 ]
 
-const AddCourse = ({onNavigate,setCourses}) => {
+const AddCourse = ({
+    addCourse,onNavigate
+}) => {
     const{getter,setter} = useAddCourseState();
-
-    const handleSubmit = () => {
-        setCourses((prevState) => {
-            const newCourses = {...prevState};
-            const payload = {
-                ...getter,
-                courseId: Math.random().toString()
-            }
-            newCourses?.data?.push(payload);
-            return newCourses;
-        })
-
-        onNavigate("/");
+    const submitHandler = () => {
+        addCourse(getter)
+        onNavigate(constants.ROUTES.COURSE_LIST)
     }
 
     return (
@@ -48,11 +47,11 @@ const AddCourse = ({onNavigate,setCourses}) => {
                 }
 
                 <ButtonGroup>
-                    <Button variant="success" onClick={handleSubmit} disabled={getter.isDisable} >
+                    <Button variant="success" onClick={submitHandler}>
                         Submit
                     </Button>
 
-                    <Button variant="secondary" onClick={() => onNavigate("/")}>
+                    <Button variant="secondary" onClick={() => onNavigate(constants.ROUTES.COURSE_LIST)}>
                         Cancel
                     </Button>
                 </ButtonGroup>
@@ -61,4 +60,8 @@ const AddCourse = ({onNavigate,setCourses}) => {
     )
 }
 
-export default AddCourse
+const mapDispatchToProps = (dispatch) => ({
+    addCourse: course => dispatch(addCourse(course))
+})
+
+export default connect(null,mapDispatchToProps)(AddCourse)

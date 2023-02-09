@@ -4,21 +4,21 @@ import { StyledContainer , EmptyState , Pagination } from "../components";
 
 export default (ListComponent , opts) => {
     return (props) => {
-        const {listData,label} = opts
-        const [data,setData] = React.useState(listData)
+        const {label,navAdd} = opts
+        const {listData} = props;
         const [currentPage,setCurrentPage] = React.useState(1)
         const [recordsPerPage] = React.useState(3)
 
         const indexOfLastRecord = currentPage * recordsPerPage
         const indexOfFirstRecord = indexOfLastRecord - recordsPerPage
-        const currentRecord = data?.data?.slice(indexOfFirstRecord,indexOfLastRecord)
-        const totalPage = Math.ceil(data?.data?.length / recordsPerPage)
+        const currentRecord = listData?.slice(indexOfFirstRecord,indexOfLastRecord)
+        const totalPage = Math.ceil(listData?.length / recordsPerPage)
 
         return (
             <>
              <StyledContainer>
                 <Button 
-                    variant="success" onClick={() => props.onNavigate(opts.navAdd)}
+                    variant="success" onClick={() => props.onNavigate(navAdd)}
                 >
                     Add {label}
                 </Button>

@@ -1,10 +1,10 @@
 import React from "react";
 
-import typeList from "../../fixtures/courseType.json"
 import withPaginationList from "../../hoc/withPaginationList";
 
 import { StyledListGroup } from "./style";
-import TypeItem from "./components/TypeItem"
+import TypeItem from "./components/TypeItem";
+import { connect } from "react-redux";
 
 const List = ({data}) => {
     return (
@@ -16,8 +16,11 @@ const List = ({data}) => {
     )
 }
 
-export default withPaginationList(List,{
-    listData: typeList,
-    label: "Course Type",
-    navAdd: "/add-course-type"
-});
+const mapStateToProps = state => ({
+    listData: state.courseTypes.typeList,
+    pagination: state.courseTypes.pagination
+})
+
+export default connect(mapStateToProps)(withPaginationList(List,{
+    label: "Course Type",navAdd: "/add-course-type"
+}))
