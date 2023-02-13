@@ -1,16 +1,18 @@
-import { Component } from "react";
-import { useNavigate,useParams } from "react-router-dom";
+// not Used in this branch
 
-export const withRouter = (Component) => {
-    return(props) => {
-        const navigate = useNavigate();
-        const params = useParams();
+// import { Component } from "react";
+// import { useNavigate,useParams } from "react-router-dom";
 
-        return(
-            <Component 
-                {...props}
-                route={{navigate,params}}
-            />
-        )
-    }
-}
+// export const withRouter = (Component) => {
+//     return(props) => {
+//         const navigate = useNavigate();
+//         const params = useParams();
+
+//         return(
+//             <Component 
+//                 {...props}
+//                 route={{navigate,params}}
+//             />
+//         )
+//     }
+// }

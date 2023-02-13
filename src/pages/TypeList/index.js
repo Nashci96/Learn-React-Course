@@ -5,6 +5,7 @@ import withPaginationList from "../../hoc/withPaginationList";
 import { StyledListGroup } from "./style";
 import TypeItem from "./components/TypeItem";
 import { connect } from "react-redux";
+import constants from "../../constants";
 
 const List = ({data}) => {
     return (
@@ -22,5 +23,6 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps)(withPaginationList(List,{
-    label: "Course Type",navAdd: "/add-course-type"
+    label: "Course Type",
+    routeToAdd: constants.ROUTES.ADD_COURSE_TYPE
 }))

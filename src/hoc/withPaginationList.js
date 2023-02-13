@@ -1,10 +1,12 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { StyledContainer , EmptyState , Pagination } from "../components";
+import { useNavigate } from "react-router-dom";
 
 export default (ListComponent , opts) => {
     return (props) => {
-        const {label,navAdd} = opts
+        const navigate = useNavigate();
+        const {label,routeToAdd} = opts;
         const {listData} = props;
         const [currentPage,setCurrentPage] = React.useState(1)
         const [recordsPerPage] = React.useState(3)
@@ -18,7 +20,7 @@ export default (ListComponent , opts) => {
             <>
              <StyledContainer>
                 <Button 
-                    variant="success" onClick={() => props.onNavigate(navAdd)}
+                    variant="success" onClick={() => navigate(routeToAdd)}
                 >
                     Add Learning {label}
                 </Button>

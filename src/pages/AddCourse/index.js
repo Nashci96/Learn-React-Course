@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import {StyledContainer,FormInput} from "../../components";
 import { addCourse } from "../../store/actions/courseAction";
 import constants from "../../constants";
+import { useNavigate } from "react-router-dom";
 
 import { StyledTitle } from "./style";
 import useAddCourseState from "./useAddCourseState";
@@ -21,13 +22,14 @@ const FORM_LIST = [
 ]
 
 const AddCourse = ({
-    addCourse,onNavigate
+    addCourse
 }) => {
     const{getter,setter} = useAddCourseState();
+    const navigate = useNavigate()
 
     const submitHandler = () => {
         addCourse(getter)
-        onNavigate(constants.ROUTES.COURSE_LIST)
+        navigate(constants.ROUTES.COURSE)
     }
 
     return (
@@ -52,7 +54,7 @@ const AddCourse = ({
                         Submit
                     </Button>
 
-                    <Button variant="secondary" onClick={() => onNavigate(constants.ROUTES.COURSE_LIST)}>
+                    <Button variant="secondary" onClick={() => navigate(constants.ROUTES.COURSE)}>
                         Cancel
                     </Button>
                 </ButtonGroup>

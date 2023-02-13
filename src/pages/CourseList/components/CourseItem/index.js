@@ -1,19 +1,21 @@
 import React from "react";
 import { StyledListItem } from "./style";
-import { ButtonGroup, Button , Col } from "react-bootstrap";
+import { ButtonGroup, Button , Col , Row } from "react-bootstrap";
 
 const CourseItem = ({data,onNavigateToEdit,onDelete}) => {
     return (
         <StyledListItem action>
-            <Col>
+            <Row>
+            <Col className="col-8">
                 <h3 className="lead">{data?.title}</h3>
                 <p> {data?.description} </p>
             </Col>
-            <ButtonGroup>
+            <ButtonGroup className="col-4">
                 <Button variant="primary" onClick={onNavigateToEdit} > Edit</Button>
                 <Button variant="danger" onClick={onDelete}> Delete </Button>
                 <Button variant="secondary" onClick={() => {}}> Download </Button>
             </ButtonGroup>
+        </Row>    
         </StyledListItem>
     )
 }
