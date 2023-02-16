@@ -1,12 +1,15 @@
 import StyledContainer from "../../components/StyledContainer";
+import { getToken } from "../../utils/token";
 
-const DashBoard = () => (
-    <StyledContainer>
-        <h1>Welcome to Enigma Course</h1>
-        <p className="lead">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tincidunt tellus vulputate, tristique dolor nec, pulvinar nibh.
-        </p>
-    </StyledContainer>
-)
+const DashBoard = () => {
+    return (
+        <StyledContainer>
+            <h1>Welcome to Enigma Course</h1>
+            <p className="lead">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tincidunt tellus vulputate, tristique dolor nec, pulvinar nibh.
+            </p>
+        </StyledContainer>
+    )
+}
 
 export default DashBoard;

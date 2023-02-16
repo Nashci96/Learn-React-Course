@@ -1,10 +1,10 @@
 import React from "react";
-import { Container , Navbar , Button , Col} from "react-bootstrap";
+import { Container , Navbar , Button } from "react-bootstrap";
 import { useNavigate,NavLink } from "react-router-dom";
 
 import { StyleNav  } from "./styles";
 import constants from "../../constants";
-import useToken from "../../hooks/useToken";
+import token, { removeToken } from "../../utils/token";
 
 const menu = [
     {path: constants.ROUTES.COURSE, menuName:"Course"},
@@ -12,7 +12,6 @@ const menu = [
 ]
 
 const NavBarComp = () => {
-    const {removeToken} = useToken()
     const navigate = useNavigate()
     const onLogout = () => {
         removeToken()
@@ -26,13 +25,9 @@ const NavBarComp = () => {
             sticky={"top"}
         >
             <Container>
-                <Col>
                     <Navbar.Brand>
                         Enigma Course
                     </Navbar.Brand>
-                </Col>
-
-                <Col className="col-2">
                     <StyleNav>
                         {menu?.map((item,index) => (
                             <NavLink
@@ -43,16 +38,13 @@ const NavBarComp = () => {
                                 {item.menuName}
                             </NavLink>
                         ))}
+                        <Button 
+                            variant="outline-danger"
+                            onClick={onLogout}
+                        >
+                            LogOut
+                        </Button>
                     </StyleNav>
-                </Col>
-
-                <Col className="col-1">
-                    <Button variant="outline-danger"
-                        onClick={onLogout}
-                    >
-                        LogOut
-                    </Button>
-                </Col>
             </Container>
        </Navbar>
     )

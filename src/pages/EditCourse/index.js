@@ -7,9 +7,9 @@ import {
 } from "../../components"
 
 import constants from "../../constants"
-import {getCourseById} from "../../services/courseApi"
-import {editCourse} from "../../store/actions/courseAction"
-import {connect} from "react-redux"
+import { updateCourseById,getCourseById } from "../../services/courseApi";
+import useFetchQuery from "../../hooks/useFetchQuery";
+import useFetchMutation from "../../hooks/useFetchMutation";
 import {onChangeTexts} from "../../utils/eventHandler"
 import { useNavigate,useParams } from "react-router-dom";
 
@@ -17,7 +17,7 @@ const initialData = {
     title: "",
     description: "",
     courseTypeId: "",
-    courseFile: "null",
+    courseFile: null,
     duration: "",
     level: ""
 }
@@ -31,42 +31,51 @@ const FORM_LIST = [
     { id: "duration", label: "Duration", type: "text", placeholder: "Enter course duration" }
 ]
 
-const EditCourse = ({editCourse}) => {
-    const[data,setData] = React.useState(initialData);
+const transformCourseData = (data) => ({
+    courseId: data?.courseId,
+    title: data?.title,
+    description: data?.description,
+    courseTypeId: data?.courseType?.courseTypeId,
+    courseType: data?.courseType,
+    courseFile: data?.link,
+    duration: data?.courseInfo?.duration,
+    level: data?.courseInfo?.level
+})
+
+const EditCourse = () => {
     const navigate = useNavigate();
     const params = useParams();
+    const {data,loading} = useFetchQuery(getCourseById,params.courseId)
+    const fetchMutation = useFetchMutation(
+        updateCourseById,
+        () => navigate(constants.ROUTES.COURSE)
+    )
+    const [course,setCourse] = React.useState(initialData)
 
     React.useEffect(() =>  {
-        let course = getCourseById(params.courseId)
-        course = {
-            courseId : course?.courseId,
-            title: course?.title,
-            description: course?.description,
-            courseFile: course?.link,
-            courseTypeId: course?.courseType?.courseTypeId,
-            level: course?.courseInfo?.level,
-            duration: course?.courseInfo?.duration
-        }
-
-        setData(course)
-    },[params.id])
+      const result = data?.data
+      const courseData = transformCourseData(result)  
+      setCourse(courseData)
+    },[data])
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const payload = {
-            courseId:params.courseId,
-            ...data
-        }
-        delete payload.courseFile;
-        delete payload.courseTypeId;
-
-        editCourse(payload)
-        navigate(constants.ROUTES.COURSE)
+        const newCourse = {...course}
+        delete newCourse.courseFile
+        fetchMutation(newCourse)
     }
 
     const handleCancel = (e) => {
         e.preventDefault();
         navigate(constants.ROUTES.COURSE);
+    }
+
+    if (loading) {
+        return (
+            <StyledContainer>
+                <p className="lead"> Loading... </p>
+            </StyledContainer>
+        )
     }
 
     return(
@@ -77,9 +86,9 @@ const EditCourse = ({editCourse}) => {
                         <FormInput 
                             key={index}
                             {...item}
-                            value={data[item.id]}
+                            value={course[item.id]}
                             onChange={!item.disabled 
-                                            ? onChangeTexts(item.id,setData) 
+                                            ? onChangeTexts(item.id,setCourse) 
                                             : () => {}
                                     }
                         />
@@ -94,10 +103,4 @@ const EditCourse = ({editCourse}) => {
     )
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        editCourse: (data) => dispatch(editCourse(data)),
-    }
-}
-
-export default connect(null,mapDispatchToProps)(EditCourse);
+export default EditCourse;

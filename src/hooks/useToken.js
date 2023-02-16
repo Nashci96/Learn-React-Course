@@ -1,28 +1,30 @@
-import React from "react";
+// NOT USED ANYMORE
 
-const TOKEN = "token";
+// import React from "react";
 
-export default function useToken() {
-    const getToken = () => {
-        const tokenString = localStorage.getItem(TOKEN);
-        const userToken = JSON.parse(tokenString);
-        return userToken?.token
-    };
+// const TOKEN = "token";
 
-    const [token,setToken] = React.useState(getToken());
+// export default function useToken() {
+//     const getToken = () => {
+//         const tokenString = localStorage.getItem(TOKEN);
+//         const userToken = JSON.parse(tokenString);
+//         return userToken?.token
+//     };
 
-    const saveToken = userToken => {
-        localStorage.setItem(TOKEN,JSON.stringify(userToken));
-        setToken(userToken.token);
-    }
+//     const [token,setToken] = React.useState(getToken());
 
-    const removeToken = () => {
-        localStorage.removeItem(TOKEN)
-    }
+//     const saveToken = userToken => {
+//         localStorage.setItem(TOKEN,JSON.stringify(userToken));
+//         setToken(userToken.token);
+//     }
 
-    return{
-        setToken: saveToken,
-        removeToken,
-        token
-    }
-}
+//     const removeToken = () => {
+//         localStorage.removeItem(TOKEN)
+//     }
+
+//     return{
+//         setToken: saveToken,
+//         removeToken,
+//         token
+//     }
+// }

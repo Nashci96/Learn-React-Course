@@ -2,19 +2,22 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { StyledContainer , EmptyState , Pagination } from "../components";
 import { useNavigate } from "react-router-dom";
+import useFetchQuery from "../hooks/useFetchQuery";
 
 export default (ListComponent , opts) => {
     return (props) => {
         const navigate = useNavigate();
-        const {label,routeToAdd} = opts;
-        const {listData} = props;
-        const [currentPage,setCurrentPage] = React.useState(1)
-        const [recordsPerPage] = React.useState(3)
+        const {label , routeToAdd, query} = opts;
+        const [currentPage, setCurrentPage] = React.useState(1)
+        const {data,loading, refetch} = useFetchQuery(query,currentPage)
 
-        const indexOfLastRecord = currentPage * recordsPerPage
-        const indexOfFirstRecord = indexOfLastRecord - recordsPerPage
-        const currentRecord = listData?.slice(indexOfFirstRecord,indexOfLastRecord)
-        const totalPage = Math.ceil(listData?.length / recordsPerPage)
+        if(loading) {
+            return(
+                <StyledContainer>
+                    <p classname= "lead"> loading </p>
+                </StyledContainer>
+            )
+        }
 
         return (
             <>
@@ -26,13 +29,13 @@ export default (ListComponent , opts) => {
                 </Button>
 
                 {
-                    currentRecord?.length > 0 
-                    ? ( <ListComponent data={currentRecord} {...props} /> )
+                    data?.data?.length > 0 
+                    ? ( <ListComponent data={data?.data} refetch={refetch} {...props} /> )
                     : <EmptyState text={`Data ${label} Kosong...`} /> 
                 }
              </StyledContainer>
              <Pagination 
-                totalPage={totalPage}
+                totalPage={data?.totalPage}
                 onChangeCurrentPage = {setCurrentPage}
                 currentPage={currentPage}
              />

@@ -2,15 +2,15 @@ import React from "react";
 import { 
     ButtonGroup , Form , Button 
 } from "react-bootstrap";
-import { connect } from "react-redux";
 
-import {StyledContainer,FormInput} from "../../components";
-import { addCourse } from "../../store/actions/courseAction";
+import {StyledContainer,FormInput} from "../../components"; 
 import constants from "../../constants";
 import { useNavigate } from "react-router-dom";
 
 import { StyledTitle } from "./style";
 import useAddCourseState from "./useAddCourseState";
+import { addCourse } from "../../services/courseApi";
+import useFetchMutation from "../../hooks/useFetchMutation";
 
 const FORM_LIST = [
     { id:"title", label:"Title",type:"text",placeholder:"Enter Course Title"},
@@ -21,15 +21,27 @@ const FORM_LIST = [
     { id:"duration", label:"Duration",type:"text",placeholder:"Enter Course Duration"},
 ]
 
-const AddCourse = ({
-    addCourse
-}) => {
+const AddCourse = () => {
     const{getter,setter} = useAddCourseState();
     const navigate = useNavigate()
 
-    const submitHandler = () => {
-        addCourse(getter)
-        navigate(constants.ROUTES.COURSE)
+    const {fetchMutation} = useFetchMutation(
+        addCourse,
+        () => navigate(constants.ROUTES.COURSE)
+    );
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        const formData = new FormData()
+
+        formData.append("title",getter.title)
+        formData.append("description",getter.description)
+        formData.append("courseTypeId",getter.courseTypeId)
+        formData.append("file",getter.courseFile)
+        formData.append("duration",getter.duration)
+        formData.append("level",getter.level)
+
+        fetchMutation(formData)
     }
 
     return (
@@ -63,8 +75,4 @@ const AddCourse = ({
     )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-    addCourse: course => dispatch(addCourse(course))
-})
-
-export default connect(null,mapDispatchToProps)(AddCourse)
+export default AddCourse
