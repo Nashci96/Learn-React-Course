@@ -8,9 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteCourseById,downloadCourseFile,getCourses } from "../../services/courseApi";
 import useFetchMutation from "../../hooks/useFetchMutation";
 
-
 const List = ({data,refetch}) => {
-
     const navigate = useNavigate()
     const {fetchMutation} = useFetchMutation(deleteCourseById,refetch)
     const onNavigateToEdit = (id) => () =>{

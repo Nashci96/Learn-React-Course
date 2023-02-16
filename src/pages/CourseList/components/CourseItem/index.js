@@ -4,8 +4,7 @@ import { ButtonGroup, Button , Col } from "react-bootstrap";
 
 const CourseItem = ({data,onNavigateToEdit,onDelete,onDownload}) => {
     return (
-        <StyledListItem action>
-            
+        <StyledListItem action>          
             <Col>
                 <h3 className="lead">{data?.title}</h3>
                 <p> {data?.description} </p>

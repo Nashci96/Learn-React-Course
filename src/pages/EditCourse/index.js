@@ -47,7 +47,7 @@ const EditCourse = () => {
     const params = useParams();
     const {data,loading} = useFetchQuery(getCourseById,params.courseId)
     const {data:typeData} = useFetchQuery(getCoursesTypes)
-    const fetchMutation = useFetchMutation(
+    const {fetchMutation} = useFetchMutation(
         updateCourseById,
         () => navigate(constants.ROUTES.COURSE)
     )
