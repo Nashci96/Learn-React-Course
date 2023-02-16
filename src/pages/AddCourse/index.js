@@ -3,7 +3,7 @@ import {
     ButtonGroup , Form , Button 
 } from "react-bootstrap";
 
-import {StyledContainer,FormInput} from "../../components"; 
+import {StyledContainer,FormInput,FormFile,FormSelect} from "../../components"; 
 import constants from "../../constants";
 import { useNavigate } from "react-router-dom";
 
@@ -11,12 +11,12 @@ import { StyledTitle } from "./style";
 import useAddCourseState from "./useAddCourseState";
 import { addCourse } from "../../services/courseApi";
 import useFetchMutation from "../../hooks/useFetchMutation";
+import useFetchQuery from "../../hooks/useFetchQuery";
+import { getCoursesTypes } from "../../services/typeApi";
 
 const FORM_LIST = [
     { id:"title", label:"Title",type:"text",placeholder:"Enter Course Title"},
     { id:"description", label:"Description",type:"textarea",placeholder:"Enter Course Description"},
-    { id:"courseTypeId", label:"Type id",type:"text",placeholder:"Enter Course Type Id"},
-    { id:"courseFile", label:"Course Material",type:"file",placeholder:"Choose Course Material"},
     { id:"level", label:"Level",type:"text",placeholder:"Enter Course Level"},
     { id:"duration", label:"Duration",type:"text",placeholder:"Enter Course Duration"},
 ]
@@ -29,6 +29,7 @@ const AddCourse = () => {
         addCourse,
         () => navigate(constants.ROUTES.COURSE)
     );
+    const {data: typeData} = useFetchQuery(getCoursesTypes)
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -60,6 +61,22 @@ const AddCourse = () => {
                         />
                     ))
                 }
+                <FormFile 
+                    label="Course Material"
+                    value={getter?.courseFile}
+                    placeholder="Choose course material"
+                    onChange={setter?.courseFile}
+                />
+                <FormSelect 
+                    label="Course Type Id"
+                    placeholder="Enter Course Type By Id"
+                    onChange={setter?.courseTypeId}
+                    value={getter?.courseTypeId}
+                    values={typeData?.data?.map((item) => ({
+                        value: item?.courseTypeId,
+                        label: item?.typeName
+                    }))}
+                />
 
                 <ButtonGroup>
                     <Button variant="success" onClick={submitHandler} disabled={getter.isDisable}>

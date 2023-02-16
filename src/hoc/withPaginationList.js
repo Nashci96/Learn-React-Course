@@ -14,7 +14,7 @@ export default (ListComponent , opts) => {
         if(loading) {
             return(
                 <StyledContainer>
-                    <p classname= "lead"> loading </p>
+                    <p className= "lead"> loading </p>
                 </StyledContainer>
             )
         }
