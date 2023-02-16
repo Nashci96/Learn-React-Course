@@ -22,7 +22,7 @@ export const downloadCourseFile = async (filename) => {
     try {
         const result = api.get("/course-files",{
             responseType: "blob",
-            params: {filename}
+            params: { filename }
         })
 
         const url = window.URL.createObjectURL(new Blob([result?.data]))

@@ -25,7 +25,7 @@ const List = ({data,refetch}) => {
     const onDownload = (filelink) => (e) => {
         e.preventDefault()
         const path = filelink?.split("\\")
-        const filename = path[path.length = 1]
+        const filename = path[path.length - 1]
 
         downloadCourseFile(filename)
     }
